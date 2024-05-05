@@ -54,28 +54,28 @@ module Init = struct
       latest_add_hash = addHash;
       tracked_files = tracked_Files;
     } in 
-    let _ = FileHandler.save_var config_elements "./.config" in
-    1
+    let _ = FileHandler.save_var config_elements _CONFIG_PATH in
+    ()
   
-  let parse_args args_list =
+  let parse_args (args_list : string list) =
     let user = List.nth args_list 0 in
     let pass = List.nth args_list 1 in
     let user_auth = Auth_Pair(user, pass) in
     let success = (emit_config_file user_auth) in 
     success;;
 
-  let print_config_file = 
+  (* let print_config_file = 
     let config_elem : config ref = ref {
       user_credentials = Auth_Pair("", "");
       commit_history = [];
       latest_add_hash = Hash("");
       tracked_files = [];
       } in
-    let _ = FileHandler.load_var config_elem "./.config" in
+    let _ = FileHandler.load_var config_elem _CONFIG_PATH in
     match !(config_elem).user_credentials with
     | Auth_Pair(username, password) -> Printf.printf "User Credentials: { username: %s, password: %s }\n" username password;;
       (* Printf.printf "Commit History: [ %s ]\n" (String.concat "; " !(config_elem).commit_history);
       Printf.printf "Latest Add Hash: %s\n" !(config_elem).latest_add_hash;
-      Printf.printf "Tracked Files: [ %s ]\n" (String.concat "; " !(config_elem).tracked_files);; *)
+      Printf.printf "Tracked Files: [ %s ]\n" (String.concat "; " !(config_elem).tracked_files);; *) *)
 end;;
 
