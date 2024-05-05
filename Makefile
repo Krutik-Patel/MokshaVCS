@@ -1,5 +1,5 @@
 OCAMLC=ocamlc
-OCAMLFLAGS=
+OCAMLFLAGS=unix.cma
 BUILDDIR=build
 SRCDIR=src
 
