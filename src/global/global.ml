@@ -24,3 +24,7 @@ let generateNewHash () =
   let hashstr = Digest.to_hex digstr in
   Hash(hashstr);;
   
+
+let _CONFIG_PATH = "./.config";;
+let _COMMIT_DIR = "./.commits/";;
+let _CURRENT_DIR = ".";;
