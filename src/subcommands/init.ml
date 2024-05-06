@@ -44,7 +44,7 @@ end;; *)
 
 module Init = struct
   let tracked_Files : file list = []
-  let commit_History : commit list = [CommitDir(Hash("<INITIAL>"), Path(""))]
+  let commit_History : commit list = [CommitDir(Hash("<INITIAL>"), Path(""), CommitMsg("<INITIAL>"))]
   let addHash : hash = Hash("<INITIAL>")
   
   let emit_config_file user_auth = 

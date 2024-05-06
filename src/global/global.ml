@@ -1,7 +1,8 @@
 type user_auth_pair = Auth_Pair of string * string;;       (* Auth Pair has user and password *)
 type file = Path of string;;                               (* Path of the files *)
-type hash = Hash of string;;                               (* Stores the hash value *)
-type commit = CommitDir of hash * file;;                   (* Stores the pair of hash and commit dir location *)
+type hash = Hash of string;;                              (* Stores the hash value *)
+type msg = CommitMsg of string;;                  
+type commit = CommitDir of hash * file * msg;;                   (* Stores the pair of hash and commit dir location *)
 
 
 type config = {
@@ -23,7 +24,16 @@ let generateNewHash () =
   let digstr = Digest.string str in
   let hashstr = Digest.to_hex digstr in
   Hash(hashstr);;
-  
+
+
+let mkdir_p (dir : string) = 
+  let rec create path = 
+      if not (Sys.file_exists path) then begin
+          create (Filename.dirname path);
+          Unix.mkdir path 0o777
+      end
+  in
+  create dir;;
 
 let _CONFIG_PATH = "./.config";;
 let _COMMIT_DIR = "./.commits/";;
