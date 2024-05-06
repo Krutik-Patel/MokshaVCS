@@ -43,7 +43,7 @@ end;; *)
 
 
 module Init = struct
-  let tracked_Files : file list = []
+  let tracked_Files : file list = [Path(_CONFIG_PATH)]
   let commit_History : commit list = [CommitDir(Hash("<INITIAL>"), Path(""), CommitMsg("<INITIAL>"))]
   let addHash : hash = Hash("<INITIAL>")
   
