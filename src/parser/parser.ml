@@ -2,6 +2,7 @@ open Add
 open Init
 open Commit
 open Log
+open Status
 
 (* Functionality to add: Make a new type called errors, which has all the types of errors *)
 
@@ -25,7 +26,7 @@ let command_parser cmd_list =
     | "add" ->          Add.parse_args (List.tl sub_cmd_args)
     | "commit" ->       Commit.parse_args (List.tl sub_cmd_args)
     (* | "push" ->         Push.parse_args (List.tl sub_cmd_args)                                                                                                               *)
-    (* | "status" ->       Status.parse_args (List.tl sub_cmd_args) *)
+    | "status" ->       Status.parse_args (List.tl sub_cmd_args)
     (* | "checkout" ->     Checkout.parse_args (List.tl sub_cmd_args) *)
     (* | "merge" ->        Merge.parse_args (List.tl sub_cmd_args) *)
     (* | "pull" ->         Pull.parse_args (List.tl sub_cmd_args) *)

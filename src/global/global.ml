@@ -10,6 +10,7 @@ type config = {
   commit_history: commit list;
   latest_add_hash: hash;
   tracked_files : file list;
+  uncommitted_changes_count : int;                        (* stores the number of files added yet to be committed *)
 }
 
 let config_global : config ref = ref {
@@ -17,6 +18,7 @@ let config_global : config ref = ref {
       commit_history = [];
       latest_add_hash = Hash("");
       tracked_files = [];
+      uncommitted_changes_count = 0;
 }
 
 let generateNewHash () = 

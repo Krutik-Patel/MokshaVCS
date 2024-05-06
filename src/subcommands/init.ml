@@ -48,13 +48,13 @@ module Init = struct
   let addHash : hash = Hash("<INITIAL>")
   
   let emit_config_file user_auth = 
-    let config_elements : config = {
+    let () = config_global := { !(config_global) with
       user_credentials = user_auth;
       commit_history = commit_History;
       latest_add_hash = addHash;
       tracked_files = tracked_Files;
     } in 
-    let _ = FileHandler.save_var config_elements _CONFIG_PATH in
+    let _ = FileHandler.save_var !(config_global) _CONFIG_PATH in
     ()
   
   let parse_args (args_list : string list) =

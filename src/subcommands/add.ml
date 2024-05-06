@@ -23,7 +23,12 @@ open Global
 module Add = struct
 
     let add_to_tracked_files file_path = 
-        let () = config_global := { !config_global with tracked_files = file_path :: !(config_global).tracked_files } in
+        let () = config_global := 
+            { 
+                !config_global with 
+                tracked_files = file_path :: !(config_global).tracked_files; 
+                uncommitted_changes_count = !(config_global).uncommitted_changes_count + 1 
+            } in
         let hash = generateNewHash () in
         hash;;
 
