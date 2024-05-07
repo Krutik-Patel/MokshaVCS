@@ -25,10 +25,14 @@ module Commit = struct
                 close_out oc
             in copy_chars ic oc
 
+    let print_committed_file_message (f : file) = 
+        let Path str = f in
+        print_endline ("Committed " ^ str)
+
 
     let copy_files_to_commit_dir (dir_path : file) = 
         let current_dirs_files_list = !(config_global).tracked_files in
-        let _ = List.map (fun f -> copy_file f dir_path) current_dirs_files_list in
+        let _ = List.map (fun f -> let _ = copy_file f dir_path in print_committed_file_message f) current_dirs_files_list in
         ()
 
 
@@ -36,7 +40,13 @@ module Commit = struct
         let Hash str = !(config_global).latest_add_hash in
         let new_commit_dir = Path(_COMMIT_DIR^str) in
         let commit_el = CommitDir(!(config_global).latest_add_hash, new_commit_dir, CommitMsg(msg)) in
-        let () = config_global := { !config_global with commit_history = commit_el :: !(config_global).commit_history } in
+        let () = 
+            config_global := 
+                {   
+                    !config_global with 
+                    commit_history = commit_el :: !(config_global).commit_history; 
+                    uncommitted_changes_count = 0
+                } in
         let _ = copy_files_to_commit_dir (new_commit_dir) in 
         ()
     
@@ -45,7 +55,7 @@ module Commit = struct
         let _ = FileHandler.load_var config_global _CONFIG_PATH in 
         let CommitDir (last_commit_hash, _, _) = List.hd !(config_global).commit_history in
         let success = if !(config_global).latest_add_hash = last_commit_hash 
-                    then print_string "Nothing to commit"
+                    then print_endline "Nothing to commit."
                 else
                     let msg = if (List.length args_list > 0) && (List.nth args_list 0 = "-m") then (List.nth args_list 1) else "NA" in
                     let success = make_commit msg in
