@@ -14,11 +14,11 @@ type config = {
 }
 
 let config_global : config ref = ref {
-      user_credentials = Auth_Pair("", "");
-      commit_history = [];
-      latest_add_hash = Hash("");
-      tracked_files = [];
-      uncommitted_changes_count = 0;
+  user_credentials = Auth_Pair("", "");
+  commit_history = [];
+  latest_add_hash = Hash("");
+  tracked_files = [];
+  uncommitted_changes_count = 0;
 }
 
 let generateNewHash () = 
@@ -40,3 +40,20 @@ let mkdir_p (dir : string) =
 let _CONFIG_PATH = "./.config";;
 let _COMMIT_DIR = "./.commits/";;
 let _CURRENT_DIR = ".";;
+
+(* module ConfigInterface = struct
+  let get_user_credentials config = config.user_credentials
+  let set_user_credentials config user_credentials = config.user_credentials <- user_credentials
+
+  let get_commit_history config = config.commit_history
+  let set_commit_history config commit_history = config.commit_history <- commit_history
+
+  let get_latest_add_hash config = config.latest_add_hash
+  let set_latest_add_hash config latest_add_hash = config.latest_add_hash <- latest_add_hash
+
+  let get_tracked_files config = config.tracked_files
+  let set_tracked_files config tracked_files = config.tracked_files <- tracked_files
+
+  let get_uncommitted_changes_count config = config.uncommitted_changes_count
+  let set_uncommitted_changes_count config uncommitted_changes_count = config.uncommitted_changes_count <- uncommitted_changes_count
+end *)

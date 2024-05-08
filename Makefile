@@ -51,7 +51,8 @@ $(BUILDDIR)/parser/parser.cmo: $(SRCDIR)/parser/parser.ml \
 								$(BUILDDIR)/subcommands/log.cmo \
 								$(BUILDDIR)/subcommands/merge.cmo \
 								$(BUILDDIR)/subcommands/push.cmo \
-								$(BUILDDIR)/subcommands/pull.cmo
+								$(BUILDDIR)/subcommands/pull.cmo \
+								$(BUILDDIR)/subcommands/forceRevert.cmo
 	mkdir -p $(dir $@)
 	$(OCAMLC) $(OCAMLFLAGS) -I $(BUILDDIR)/global -I $(BUILDDIR)/helper -I $(BUILDDIR)/subcommands -c $< -o $@
 

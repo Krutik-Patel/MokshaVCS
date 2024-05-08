@@ -3,6 +3,9 @@ open Init
 open Commit
 open Log
 open Status
+open Push
+open Clone
+open ForceRevert
 
 (* Functionality to add: Make a new type called errors, which has all the types of errors *)
 
@@ -25,14 +28,14 @@ let command_parser cmd_list =
     | "init" ->         Init.parse_args (List.tl sub_cmd_args)
     | "add" ->          Add.parse_args (List.tl sub_cmd_args)
     | "commit" ->       Commit.parse_args (List.tl sub_cmd_args)
-    (* | "push" ->         Push.parse_args (List.tl sub_cmd_args)                                                                                                               *)
+    | "push" ->         Push.parse_args (List.tl sub_cmd_args)                                                                                                              
     | "status" ->       Status.parse_args (List.tl sub_cmd_args)
     (* | "checkout" ->     Checkout.parse_args (List.tl sub_cmd_args) *)
     (* | "merge" ->        Merge.parse_args (List.tl sub_cmd_args) *)
     (* | "pull" ->         Pull.parse_args (List.tl sub_cmd_args) *)
     | "log" ->          Log.parse_args (List.tl sub_cmd_args)
-    (* | "clone" ->        Clone.parse_args (List.tl sub_cmd_args) *)
-    (* | "force-revert" -> ForceRevert.parse_args (List.tl sub_cmd_args) *)
+    | "clone" ->        Clone.parse_args (List.tl sub_cmd_args)
+    | "force-revert" -> ForceRevert.parse_args (List.tl sub_cmd_args)
     | nt_sub_cmd -> failwith (Printf.sprintf "(\"%s\") is not a recognizable sub-command" nt_sub_cmd);;
 
 
