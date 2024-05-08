@@ -5,7 +5,7 @@
 
 (* open FileHandler *)
 open Global
-open FileHandler
+open ConfigInterface
 
 (* type user_auth_pair = Auth_Pair of string * string;;       (* Auth Pair has user and password *)
 type file = Path of string;;                               (* Path of the files *)
@@ -48,13 +48,10 @@ module Init = struct
   let addHash : hash = Hash("<INITIAL>")
   
   let emit_config_file user_auth = 
-    let () = config_global := { !(config_global) with
-      user_credentials = user_auth;
-      commit_history = commit_History;
-      latest_add_hash = addHash;
-      tracked_files = tracked_Files;
-    } in 
-    let _ = FileHandler.save_var !(config_global) _CONFIG_PATH in
+    let () = ConfigInterface.set_user_credentials user_auth in
+    let () = ConfigInterface.set_commit_history commit_History in
+    let () = ConfigInterface.set_latest_add_hash addHash in
+    let () = ConfigInterface.set_tracked_files tracked_Files in 
     ()
   
   let parse_args (args_list : string list) =
