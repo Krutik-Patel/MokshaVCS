@@ -2,6 +2,7 @@ OCAMLC=ocamlc
 OCAMLFLAGS=unix.cma
 BUILDDIR=build
 SRCDIR=src
+TESTDIR=tests
 
 # find all the .ml files in the src directory
 SOURCEFILES=$(shell find $(SRCDIR) -name *.ml)
@@ -13,7 +14,8 @@ all: moksha
 moksha: $(OBJECTFILES)
 	$(OCAMLC) $(OCAMLFLAGS) -o moksha \
 	$(BUILDDIR)/global/global.cmo \
-	$(BUILDDIR)/helper/*.cmo \
+	$(BUILDDIR)/helper/fileHandler.cmo \
+	$(BUILDDIR)/helper/configInterface.cmo \
 	$(BUILDDIR)/subcommands/*.cmo \
 	$(BUILDDIR)/parser/parser.cmo
 
@@ -22,6 +24,11 @@ $(BUILDDIR)/global/global.cmo: $(SRCDIR)/global/global.ml
 	mkdir -p $(dir $@)
 	$(OCAMLC) $(OCAMLFLAGS) -c $< -o $@
 
+$(BUILDDIR)/helper/configInterface.cmo: $(SRCDIR)/helper/configInterface.ml \
+										$(BUILDDIR)/helper/fileHandler.cmo \
+										$(BUILDDIR)/global/global.cmo
+	mkdir -p $(dir $@)
+	$(OCAMLC) $(OCAMLFLAGS) -c -I $(BUILDDIR)/helper -I $(BUILDDIR)/global $< -o $@
 
 $(BUILDDIR)/helper/%.cmo: $(SRCDIR)/helper/%.ml
 	mkdir -p $(dir $@)
@@ -35,6 +42,7 @@ $(BUILDDIR)/Test/%.cmo: $(SRCDIR)/Test/%.ml
 
 $(BUILDDIR)/subcommands/%.cmo: $(SRCDIR)/subcommands/%.ml \
 								$(BUILDDIR)/helper/fileHandler.cmo \
+								$(BUILDDIR)/helper/configInterface.cmo \
 								$(BUILDDIR)/global/global.cmo
 	mkdir -p $(dir $@)
 	$(OCAMLC) $(OCAMLFLAGS) -I $(BUILDDIR)/helper -I $(BUILDDIR)/global -c $< -o $@
@@ -60,6 +68,27 @@ $(BUILDDIR)/parser/parser.cmo: $(SRCDIR)/parser/parser.ml \
 
 
 
+test: $(BUILDDIR)/global/global.cmo \
+	$(BUILDDIR)/helper/fileHandler.cmo \
+	$(BUILDDIR)/helper/configInterface.cmo \
+	$(BUILDDIR)/Test/Test.cmo \
+	$(TESTDIR)/parser/parser.cmo
+
+	$(OCAMLC) $(OCAMLFLAGS) -o test \
+	$(BUILDDIR)/global/global.cmo \
+	$(BUILDDIR)/helper/fileHandler.cmo \
+	$(BUILDDIR)/helper/configInterface.cmo \
+	$(BUILDDIR)/Test/Test.cmo \
+	$(TESTDIR)/parser/parser.cmo
+	
+$(TESTDIR)/parser/parser.cmo: $(TESTDIR)/parser/parser.ml \
+								$(BUILDDIR)/global/global.cmo \
+								$(BUILDDIR)/helper/fileHandler.cmo \
+								$(BUILDDIR)/helper/configInterface.cmo \
+								$(BUILDDIR)/parser/parser.cmo \
+								$(BUILDDIR)/Test/Test.cmo
+
+	$(OCAMLC) $(OCAMLFLAGS) -c $< -o $@
 
 clean:
 	rm -rf $(BUILDDIR) moksha
